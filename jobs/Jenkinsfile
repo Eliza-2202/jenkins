@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     // Imprimir "Hola Mundo" en la consola
-                    echo 'Hola Mundo'
+                    echo 'Hola Mundo holisssssss'
                 }
             }
         }
