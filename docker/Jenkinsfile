@@ -9,7 +9,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build('nombre-imagen-local', './')
+                    docker.build('eliza22/mi_imagen', './')
                 }
             }
         }

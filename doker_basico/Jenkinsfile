@@ -7,6 +7,19 @@ pipeline {
             }
         }
        
+    	stage('Docker Build') {
+    	    agent any
+	    steps {
+		sh 'docker build -t eliza22/fastapi-app .'
+	     }
+    	}
+    	
+    	stage('Docker Run') {
+	     agent any
+	     steps {
+		sh 'docker run --name test -d fastapi-app .'
+	     }
+    	}
     }
 }
 
