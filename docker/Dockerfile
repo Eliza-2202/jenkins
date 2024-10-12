@@ -1,19 +1,17 @@
-FROM php:7.1.17-apache
-LABEL maintainer="Jaivic"
+# Usa una imagen base
+FROM python:3.9-slim
 
-RUN a2enmod rewrite
+# Establece el directorio de trabajo
+WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
-        zlib1g-dev \
-        libicu-dev \
-        libxml2-dev \
-        libpq-dev\
-	
-        && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-        && docker-php-ext-install pdo pdo_mysql pdo_pgsql zip intl xmlrpc soap opcache \
-        && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
-        && apt-get install vim -y
+# Copia los archivos necesarios
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
 
-COPY  . /var/www/html/
-WORKDIR /var/www/html/
+# Expone el puerto en el que la aplicación se ejecutará
+EXPOSE 8000
+
+# Comando para ejecutar la aplicación
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
 
