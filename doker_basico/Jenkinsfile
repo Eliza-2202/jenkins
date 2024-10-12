@@ -1,12 +1,14 @@
 pipeline {
     agent { dockerfile true}
     stages {
-        stage('Test') {
-            steps (
-            	echo 'Hola Mundo, holisssssssssss'
-            )
+        stage('Ejecutar') {
+            steps {
+                script {
+                    // Imprimir "Hola Mundo" en la consola
+                    echo 'Hola Mundo, holisssssssssss'
+                }
+            }
         }
-       
     }
 }
 
