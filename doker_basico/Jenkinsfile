@@ -1,25 +1,25 @@
 pipeline {
-    agent { dockerfile true}
-    stages {
-        stage('Test') {
-            steps {
-            	echo 'Hola Mundo, holisssssssssss'
-            }
-        }
-       
-    	stage('Docker Build') {
-    	    agent any
-	    steps {
-		sh 'docker build -t eliza22/fastapi-app .'
-	     }
+    	agent { dockerfile true}
+    	stages{
+		stage('Test') {
+		    steps {
+		    	echo 'Hola Mundo, holisssssssssss'
+		    }
+		}
+	       
+		stage('Docker Build') {
+		      agent any
+		      steps {
+			sh 'docker build -t shanem/spring-petclinic:latest .'
+		      }
+		    }
+	    	
+		stage('Docker Run') {
+		      agent any
+		      steps {
+			sh 'docker run --name test -d eliza22/fastapi-app .'
+		      }
+		    }
     	}
-    	
-    	stage('Docker Run') {
-	     agent any
-	     steps {
-		sh 'docker run --name test -d eliza22/fastapi-app .'
-	     }
-    	}
-    }
 }
 
