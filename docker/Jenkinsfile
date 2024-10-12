@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://tu-repositorio-url.git'
+                git branch: 'main', url: 'https://github.com/Eliza-2202/jenkins.git'
             }
         }
         stage('Build Docker Image') {
