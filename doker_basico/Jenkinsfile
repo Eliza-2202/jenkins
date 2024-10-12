@@ -17,7 +17,7 @@ pipeline {
     	stage('Docker Run') {
 	     agent any
 	     steps {
-		sh 'docker run --name test -d fastapi-app .'
+		sh 'docker run --name test -d eliza22/fastapi-app .'
 	     }
     	}
     }
