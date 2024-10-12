@@ -4,15 +4,14 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Eliza-2202/jenkins.git'
+                git branch: 'main', url: 'https://github.com/Eliza-2202/jenkins.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Cambia 'nombre_imagen:tag' por el nombre de imagen que desees
-                    def image = docker.build("nombre_imagen:tag", "-f Dockerfile .")
+                    def image = docker.build("nombre_imagen:tag")
                 }
             }
         }
@@ -20,7 +19,6 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    // Ejecuta el contenedor basado en la imagen construida
                     docker.image("nombre_imagen:tag").run("-p 8000:8000")
                 }
             }
@@ -29,9 +27,9 @@ pipeline {
 
     post {
         always {
-            // Limpieza opcional
             sh 'docker system prune -f'
         }
     }
 }
+
 
