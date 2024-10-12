@@ -3,8 +3,7 @@ pipeline {
     stages {
         stage('Test') {
             steps (
-            	sh docker --version
-          
+            	echo 'Hola Mundo, holisssssssssss'
             )
         }
        
