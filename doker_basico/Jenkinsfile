@@ -2,9 +2,9 @@ pipeline {
     agent { dockerfile true}
     stages {
         stage('Test') {
-            steps (
-            	sh "echo 'Hola Mundo, holisssssssssss'"
-            )
+            steps {
+            	echo 'Hola Mundo, holisssssssssss'
+            }
         }
        
     }
