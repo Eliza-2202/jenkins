@@ -1,21 +1,33 @@
 pipeline {
     agent any
+
     stages {
-        stage('Test') {
+        stage('Run Docker Container') {
             steps {
-                echo 'Hola Mundo, holisssssssssss'
+                script {
+                    // Descargar la imagen desde Docker Hub y correr el contenedor
+                    sh 'docker run -d -p 8000:8000 eliza22/fastapi-app'
+                }
             }
         }
-        stage('Docker Build') {
+        stage('Verify Container') {
             steps {
-                sh 'docker build -t eliza22/fastapi-app .'
+                script {
+                    // Verificar que el contenedor esté corriendo
+                    sh 'docker ps | grep eliza22/fastapi-app'
+                }
             }
         }
-        stage('Docker Run') {
+        
+        stage('Run Docker Container') {
             steps {
-                sh 'docker run --name test -d eliza22/fastapi-app .'
+                script {
+                    // Descargar la imagen desde Docker Hub y correr el contenedor
+                    echo 'Hola Mundo, holisssssssssss'
+                }
             }
         }
+       
+        
     }
 }
-
