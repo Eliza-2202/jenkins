@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     // Descargar la imagen desde Docker Hub y correr el contenedor
-                    sh 'docker run -d -p 8000:8000 eliza22/fastapi-app'
+                    sh 'docker run -d -p 8000:8000 eliza22/mi_imagen'
                 }
             }
         }
@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     // Verificar que el contenedor esté corriendo
-                    sh 'docker ps | grep eliza22/fastapi-app'
+                    sh 'docker ps | grep eliza22/mi_imagen'
                 }
             }
         }
