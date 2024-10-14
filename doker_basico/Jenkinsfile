@@ -10,6 +10,7 @@ pipeline {
                 }
             }
         }
+        
         stage('Verify Container') {
             steps {
                 script {
@@ -19,15 +20,14 @@ pipeline {
             }
         }
         
-        stage('Run Docker Container') {
+        stage('Print Message') { // Renombrar esta etapa
             steps {
                 script {
-                    // Descargar la imagen desde Docker Hub y correr el contenedor
+                    // Imprimir mensaje personalizado
                     echo 'Hola Mundo, holisssssssssss'
                 }
             }
         }
-       
-        
     }
 }
+
