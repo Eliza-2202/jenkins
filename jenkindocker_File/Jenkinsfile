@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     // Construir la imagen de Docker usando el Dockerfile en el directorio actual
-                    sh 'docker build -t mi_imagen_local -f Dockerfile .'
+                    sh 'docker build -t mi_imagen_local -f jenkindocker_File/Dockerfile jenkindocker_File'
                 }
             }
         }
