@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Construir la imagen de Docker usando el Dockerfile en el directorio actual
+                    sh 'docker build -t mi_imagen_local .'
+                }
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                script {
+                    // Ejecutar el contenedor en segundo plano desde la imagen local
+                    sh 'docker run -d -p 8000:8000 mi_imagen_local'
+                }
+            }
+        }
+
+        stage('Verify Container') {
+            steps {
+                script {
+                    // Verificar que el contenedor esté corriendo
+                    sh 'docker ps | grep mi_imagen_local'
+                }
+            }
+        }
+
+        stage('Print Message') {
+            steps {
+                script {
+                    // Imprimir mensaje de éxito
+                    echo 'La imagen de Docker ha sido construida y el contenedor está corriendo exitosamente.'
+                }
+            }
+        }
+    }
+}
+
