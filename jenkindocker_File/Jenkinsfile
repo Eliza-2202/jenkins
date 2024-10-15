@@ -34,7 +34,7 @@ pipeline {
         stage('Verify Container') {
             steps {
                 script {
-                    // Verificar que el contenedor esté corriendo
+                    // Verificar que esté corriendo el contenedor 
                     sh 'docker ps | grep mi_imagen_local'
                 }
             }
@@ -44,10 +44,9 @@ pipeline {
             steps {
                 script {
                     // Imprimir mensaje de éxito
-                    echo 'La imagen de Docker ha sido construida y el contenedor está corriendo exitosamente.'
+                    echo 'Se logro'
                 }
             }
         }
     }
 }
-
