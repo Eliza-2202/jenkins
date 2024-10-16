@@ -24,8 +24,9 @@ pipeline {
             steps {
                 script {
                     // Aplicar los archivos de despliegue y servicio en Kubernetes
-                    sh 'kubectl apply -f deployment.yml'
-                    sh 'kubectl apply -f service.yml'
+
+                    sh 'kubectl apply -f dockerKuberMini_File/deployment.yml'
+                    sh 'kubectl apply -f dockerKuberMini_File/service.yml'
                 }
             }
         }
