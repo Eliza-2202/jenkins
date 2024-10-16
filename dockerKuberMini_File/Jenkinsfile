@@ -20,15 +20,6 @@ pipeline {
             }
         }
 
-        stage('Load Image into Minikube') {
-            steps {
-                script {
-                    // Cargar la imagen en Minikube
-                    sh "minikube image load ${DOCKER_IMAGE}"
-                }
-            }
-        }
-
         stage('Deploy to Kubernetes') {
             steps {
                 script {
@@ -49,13 +40,6 @@ pipeline {
                     sh 'kubectl get pods'
                 }
             }
-        }
-    }
-
-    post {
-        always {
-            // Limpiar el entorno después de la ejecución
-            cleanWs()
         }
     }
 }
