@@ -5,15 +5,16 @@ metadata:
 spec:
   replicas: 1
   selector:
-	matchLabels:
-  	app: fastapi
+    matchLabels:
+      app: fastapi
   template:
-	metadata:
-  	labels:
-    	app: fastapi
-	spec:
-  	containers:
-    	- name: fastapi
-      	image: eliza22/suerte:tag  # Cambia esto por tu imagen
-      	ports:
-        	- containerPort: 80
+    metadata:
+      labels:
+        app: fastapi
+    spec:
+      containers:
+        - name: fastapi
+          image: eliza22/suerte:tag  # Cambia esto por tu imagen
+          ports:
+            - containerPort: 80
+
