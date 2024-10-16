@@ -2,10 +2,18 @@ pipeline {
     agent any
 
     stages {
+        stage('Start Minikube') {
+            steps {
+                script {
+                    // Iniciar Minikube si no está corriendo
+                    sh 'minikube start || echo "Minikube ya está corriendo."'
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Construir la imagen Docker
                     sh 'docker build -t eliza22/abc:tag -f dockerKuberMini_File/Dockerfile dockerKuberMini_File'
                 }
             }
@@ -14,7 +22,6 @@ pipeline {
         stage('Load Image into Minikube') {
             steps {
                 script {
-                    // Cargar la imagen en Minikube
                     sh 'minikube image load eliza22/abc:tag'
                 }
             }
@@ -23,7 +30,6 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    // Aplicar el despliegue y servicio
                     sh 'kubectl apply -f deployment.yml'
                     sh 'kubectl apply -f service.yml'
                 }
@@ -33,7 +39,6 @@ pipeline {
         stage('Check Services') {
             steps {
                 script {
-                    // Verificar los servicios
                     sh 'kubectl get services'
                 }
             }
@@ -42,7 +47,6 @@ pipeline {
         stage('Verify Pods') {
             steps {
                 script {
-                    // Verificación de si los pods están corriendo
                     sh 'kubectl get pods'
                 }
             }
