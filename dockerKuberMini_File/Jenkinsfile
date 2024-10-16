@@ -13,7 +13,8 @@ pipeline {
                     sh 'eval $(minikube docker-env)'
 
                     // Construir la imagen Docker
-                    sh "docker build -t ${DOCKER_IMAGE} dockerKuberMini_File/Dockerfile dockerKuberMini_File"
+                    sh 'docker build -t ${DOCKER_IMAGE} dockerKuberMini_File/'
+
                 }
             }
         }
