@@ -2,8 +2,7 @@ pipeline {
     agent any
 
     environment {
-        // Ajusta el nombre de la imagen según sea necesario
-        DOCKER_IMAGE = 'img-123'
+        DOCKER_IMAGE = 'eliza22/suerte:tag'  // Nombre de la imagen Docker
     }
 
     stages {
@@ -13,17 +12,39 @@ pipeline {
                     // Cambia al contexto de Docker de Minikube
                     sh 'eval $(minikube docker-env)'
 
-                    // Construye la imagen de Docker usando el contexto actual
-                    sh "docker build -t ${DOCKER_IMAGE} -f dockerKuberMini_File/Dockerfile dockerKuberMini_File"
+                    // Construir la imagen Docker
+                    sh "docker build -t ${DOCKER_IMAGE} ."
                 }
             }
         }
 
-        stage('Deploy to Minikube') {
+        stage('Load Image into Minikube') {
             steps {
                 script {
-                    // Aplica el archivo de despliegue en Kubernetes
-                    sh 'kubectl apply -f deployment.yaml'
+                    // Cargar la imagen en Minikube
+                    sh "minikube image load ${DOCKER_IMAGE}"
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    // Aplicar los archivos de despliegue y servicio en Kubernetes
+                    sh 'kubectl apply -f deployment.yml'
+                    sh 'kubectl apply -f service.yml'
+                }
+            }
+        }
+
+        stage('Verify Deployment') {
+            steps {
+                script {
+                    // Verificar el estado de los servicios
+                    sh 'kubectl get services'
+
+                    // Verificar el estado de los pods
+                    sh 'kubectl get pods'
                 }
             }
         }
@@ -36,3 +57,4 @@ pipeline {
         }
     }
 }
+
