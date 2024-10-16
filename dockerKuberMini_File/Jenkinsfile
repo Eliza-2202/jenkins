@@ -6,8 +6,7 @@ pipeline {
             steps {
                 script {
                     // Construir la imagen Docker
-                    sh 'docker build -t eliza22/abc:tag -f '
-                    sh 'docker build -t mi_imagen_local -f dockerKuberMini_File/Dockerfile dockerKuberMini_File'
+                    sh 'docker build -t eliza22/abc:tag -f dockerKuberMini_File/Dockerfile dockerKuberMini_File'
                 }
             }
         }
