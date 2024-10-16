@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Construir la imagen Docker
+                    sh 'docker build -t eliza22/abc:tag .'
+                }
+            }
+        }
+
+        stage('Load Image into Minikube') {
+            steps {
+                script {
+                    // Cargar la imagen en Minikube
+                    sh 'minikube image load eliza22/abc:tag'
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    // Aplicar el despliegue y servicio
+                    sh 'kubectl apply -f deployment.yml'
+                    sh 'kubectl apply -f service.yml'
+                }
+            }
+        }
+
+        stage('Check Services') {
+            steps {
+                script {
+                    // Verificar los servicios
+                    sh 'kubectl get services'
+                }
+            }
+        }
+
+        stage('Verify Pods') {
+            steps {
+                script {
+                    // Verificación de si los pods están corriendo
+                    sh 'kubectl get pods'
+                }
+            }
+        }
+    }
+}
+
