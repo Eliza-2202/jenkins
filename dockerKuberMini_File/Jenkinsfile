@@ -7,20 +7,13 @@ pipeline {
     }
 
     stages {
-        stage('Clone Repository') {
-            steps {
-                // Clonar tu repositorio
-                git 'https://github.com/Eliza-2202/jenkins.git'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 script {
                     // Cambia al contexto de Docker de Minikube
                     sh 'eval $(minikube docker-env)'
 
-                    // Construye la imagen de Docker
+                    // Construye la imagen de Docker usando el contexto actual
                     sh "docker build -t ${DOCKER_IMAGE} ."
                 }
             }
@@ -43,5 +36,3 @@ pipeline {
         }
     }
 }
-
-
