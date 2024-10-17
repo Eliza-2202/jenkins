@@ -22,8 +22,8 @@ pipeline {
                     script {
                         // Configurar kubectl con los certificados correctos
                         sh '''
-			kubectl config set-cluster minikube --server=https://192.168.49.2:8443 --certificate-authority=~/Desktop/jenkins/jenkindocker_File_parte2/certs/ca.pem
-			kubectl config set-credentials minikube --client-certificate=~/Desktop/jenkins/jenkindocker_File_parte2/certs/client.crt --client-key=~/Desktop/jenkins/jenkindocker_File_parte2/certs/client.key
+			kubectl config set-cluster minikube --server=https://192.168.49.2:8443 --certificate-authority= /home/datablitz/Desktop/jenkins/jenkindocker_File_parte2/certs/ca.pem
+			kubectl config set-credentials minikube --client-certificate= /home/datablitz/Desktop/jenkins/jenkindocker_File_parte2/certs/client.crt --client-key= /home/datablitz/Desktop/jenkins/jenkindocker_File_parte2/certs/client.key
 			kubectl config set-context minikube --cluster=minikube --user=minikube
 			kubectl config use-context minikube
 			'''
