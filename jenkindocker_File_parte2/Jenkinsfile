@@ -21,7 +21,7 @@ pipeline {
                 dir('dockerKuberMini_File') {  // Cambiar al directorio correcto
                     script {
                         sh 'eval $(minikube -p minikube docker-env)'
-                        sh 'kubectl apply -f deployment.yml --insecure-skip-tls-verify'
+                        sh 'kubectl apply -f deployment.yml --validate=false'
                     }
                 }
             }
