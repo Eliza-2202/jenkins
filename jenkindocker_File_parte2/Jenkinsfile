@@ -28,8 +28,11 @@ pipeline {
                         kubectl config use-context minikube
                         '''
                         
-                        // Comando para aplicar el deployment
+                        // Aplicar el deployment
                         sh 'kubectl apply -f deployment.yml --validate=false'
+                        
+                        // Aplicar el servicio
+                        sh 'kubectl apply -f service.yml --validate=false'
                     }
                 }
             }
@@ -37,7 +40,8 @@ pipeline {
 
         stage('Check Application') {
             steps {
-                // Aquí puedes poner verificaciones adicionales si las tienes
+                // Verificar los servicios
+                sh 'kubectl get services'
             }
         }
     }
@@ -45,8 +49,9 @@ pipeline {
     post {
         always {
             dir('dockerKuberMini_File') {
-                // Comando para limpiar el deployment después de la ejecución
+                // Limpiar deployment y servicio después de la ejecución
                 sh 'kubectl delete -f deployment.yml || true'
+                sh 'kubectl delete -f service.yml || true'
             }
         }
     }
