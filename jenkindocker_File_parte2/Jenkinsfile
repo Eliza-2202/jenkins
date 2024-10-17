@@ -22,13 +22,12 @@ pipeline {
                     script {
                         // Configurar kubectl con los certificados correctos
                         sh '''
-			kubectl config set-cluster minikube --server=https://192.168.49.2:8443 --certificate-authority= /home/datablitz/Desktop/jenkins/jenkindocker_File_parte2/certs/ca.pem
-			kubectl config set-credentials minikube --client-certificate= /home/datablitz/Desktop/jenkins/jenkindocker_File_parte2/certs/client.crt --client-key= /home/datablitz/Desktop/jenkins/jenkindocker_File_parte2/certs/client.key
-			kubectl config set-context minikube --cluster=minikube --user=minikube
-			kubectl config use-context minikube
-			'''
+                        kubectl config set-cluster minikube --server=https://192.168.49.2:8443 --certificate-authority=/home/datablitz/Desktop/jenkins/jenkindocker_File_parte2/certs/ca.pem
+                        kubectl config set-credentials minikube --client-certificate=/home/datablitz/Desktop/jenkins/jenkindocker_File_parte2/certs/client.crt --client-key=/home/datablitz/Desktop/jenkins/jenkindocker_File_parte2/certs/client.key
+                        kubectl config set-context minikube --cluster=minikube --user=minikube
+                        kubectl config use-context minikube
+                        '''
 
-                        
                         // Aplicar el deployment
                         sh 'kubectl apply -f deployment.yml --validate=false'
                         
@@ -43,16 +42,6 @@ pipeline {
             steps {
                 // Verificar los servicios
                 sh 'kubectl get services'
-            }
-        }
-    }
-
-    post {
-        always {
-            dir('dockerKuberMini_File') {
-                // Limpiar deployment y servicio después de la ejecución
-                sh 'kubectl delete -f deployment.yml || true'
-                sh 'kubectl delete -f service.yml || true'
             }
         }
     }
