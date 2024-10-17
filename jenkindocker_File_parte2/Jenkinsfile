@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = "123-app:latest"
+    }
+
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Construir la imagen Docker
+                    sh 'docker build -t $DOCKER_IMAGE .'
+                }
+            }
+        }
+
+        stage('Deploy to Minikube') {
+            steps {
+                script {
+                    // Cargar imagen en Minikube
+                    sh 'eval $(minikube -p minikube docker-env)'
+                    sh 'docker build -t $DOCKER_IMAGE .'
+
+                    // Aplicar la configuración de Kubernetes
+                    sh 'kubectl apply -f deployment.yml'
+                }
+            }
+        }
+
+        stage('Check Application') {
+            steps {
+                script {
+                    // Obtener el puerto donde se expone la aplicación
+                    sh 'minikube service fastapi-service --url'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Limpieza de recursos
+            sh 'kubectl delete -f deployment.yml || true'
+        }
+    }
+}
+
