@@ -8,22 +8,25 @@ pipeline {
     stages {
         stage('Build Docker Image') {
             steps {
-                script {
-                    // Construir la imagen Docker
-                    sh 'docker build -t $DOCKER_IMAGE .'
+                dir('jenkindocker_File_parte2') {  // Cambiar al directorio correcto
+                    script {
+                        // Construir la imagen Docker
+                        sh 'docker build -t $DOCKER_IMAGE .'
+                    }
                 }
             }
         }
 
         stage('Deploy to Minikube') {
             steps {
-                script {
-                    // Cargar imagen en Minikube
-                    sh 'eval $(minikube -p minikube docker-env)'
-                    sh 'docker build -t $DOCKER_IMAGE .'
-
-                    // Aplicar la configuración de Kubernetes
-                    sh 'kubectl apply -f deployment.yml'
+                dir('jenkindocker_File_parte2') {  // Cambiar al directorio correcto
+                    script {
+                        // Cargar imagen en Minikube
+                        sh 'eval $(minikube -p minikube docker-env)'
+                        // No es necesario construir nuevamente la imagen si ya lo hiciste en la etapa anterior
+                        // Aplica la configuración de Kubernetes
+                        sh 'kubectl apply -f deployment.yml'
+                    }
                 }
             }
         }
@@ -40,9 +43,9 @@ pipeline {
 
     post {
         always {
-            // Limpieza de recursos
-            sh 'kubectl delete -f deployment.yml || true'
+            dir('jenkindocker_File_parte2') {  // Asegurarse de estar en el directorio correcto para la limpieza
+                sh 'kubectl delete -f deployment.yml || true'
+            }
         }
     }
 }
-
