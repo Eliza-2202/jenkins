@@ -22,6 +22,9 @@ pipeline {
                     script {
 
                         // Aplicar el deployment
+                        
+                        sh 'chmod 777'
+                        
                         sh 'kubectl apply -f deployment.yml --validate=false'
                         
                         // Aplicar el servicio
