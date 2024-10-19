@@ -1,0 +1,58 @@
+pipeline {
+    agent any
+    environment {
+        // Agrega tus credenciales aquí
+        KUBECONFIG = credentials('mykubeconfing') // Reemplaza con tu ID de credencial
+    }
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Construye la imagen de Docker
+                    sh "docker build -t eliza22/fastapi-app:tag -f jenkindocker_File_parte2/Dockerfile jenkindocker_File_parte2/"
+                }
+            }
+        }
+        stage('Load Image into Minikube') {
+            steps {
+                script {
+                    // Carga la imagen en Minikube
+                    sh 'minikube image load eliza22/fastapi-app:tag'
+                }
+            }
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    // Aplica los archivos de configuración de Kubernetes
+                    sh 'kubectl apply -f jenkindocker_File_parte2/deployment.yml'
+                    sh 'kubectl apply -f jenkindocker_File_parte2/service.yml'
+                }
+            }
+        }
+        stage('Get Services') {
+            steps {
+                script {
+                    // Muestra los servicios
+                    sh 'kubectl get services'
+                }
+            }
+        }
+        stage('Verify Pods') {
+            steps {
+                script {
+                    // Verifica que los pods estén corriendo
+                    sh 'kubectl get pods'
+                }
+            }
+        }
+    }
+    post {
+        always {
+            // Limpieza opcional
+            echo 'Pipeline finished.'
+        }
+    }
+}
+
+
