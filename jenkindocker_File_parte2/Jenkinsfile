@@ -9,7 +9,7 @@ pipeline {
             steps {
                 script {
                     // Construye la imagen de Docker
-                    sh "docker build -t eliza22/suerte:tag -f jenkindocker_File_parte2/Dockerfile jenkindocker_File_parte2/"
+                    sh "docker build -t eliza22/fastapi-app:tag -f jenkindocker_File_parte2/Dockerfile jenkindocker_File_parte2/"
                 }
             }
         }
@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     // Carga la imagen en Minikube
-                    sh 'minikube image load eliza22/suerte:tag'
+                    sh 'minikube image load eliza22/fastapi-app:tag'
                 }
             }
         }

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: fastapi
-        image: fastapi-app:latest
+        image: eliza22/fastapi-app:latest # Cambia a tu imagen en Docker Hub
         ports:
         - containerPort: 8000
 ---
