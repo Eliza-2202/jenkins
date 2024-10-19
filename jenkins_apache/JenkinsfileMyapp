@@ -5,8 +5,7 @@ pipeline {
         stage('Construir Imagen') {
             steps {
                 script {
-                    // Construir la imagen de Docker
-                    sh 'docker build -t mi_imagen_local -f jenkins_apache/Dockerfile jenkins_apache'
+                    def image = docker.build("mi_imagen_local", "-f jenkins_apache/Dockerfile .")
                 }
             }
         }
@@ -14,8 +13,7 @@ pipeline {
         stage('Ejecutar Contenedor') {
             steps {
                 script {
-                    // Ejecutar el contenedor
-                    docker.run("mi_apache_imagen", "-p 8080:80")
+                    docker.image("mi_imagen_local").run("-p 8080:80")
                 }
             }
         }
