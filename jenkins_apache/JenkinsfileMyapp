@@ -2,17 +2,26 @@ pipeline {
     agent any
 
     stages {
-        stage('Construir Docker') {
+        stage('Clonar Repositorio') {
+            steps {
+                // Reemplaza con la URL de tu repositorio
+                git 'https://tu-repositorio.git'
+            }
+        }
+        stage('Construir Imagen Docker') {
             steps {
                 script {
-                    docker.build('nombre-imagen-apache', '.')
+                    // Construir la imagen de Apache
+                    //docker.build('mi_imagen', '-f docker/Dockerfile .')
+                    sh "docker build -t mi_imagen -f jenkins_apache/Dockerfile jenkins_apache/"
                 }
             }
         }
-        stage('Desplegar') {
+        stage('Desplegar en Contenedor') {
             steps {
                 script {
-                    sh 'docker run -d -p 80:80 nombre-imagen-apache'
+                    // Ejecutar el contenedor de Apache
+                    sh 'docker run -d -p 80:80 mi_imagen'
                 }
             }
         }

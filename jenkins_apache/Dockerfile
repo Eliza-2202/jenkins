@@ -1,8 +1,6 @@
- Usar una imagen de PHP con servidor web Apache
-FROM php:apache
-# Copiar los archivos del código fuente al contenedor
-COPY . /var/www/html/
-# Exponer el puerto 80
-EXPOSE 80
-# Iniciar el servidor Apache al ejecutar el contenedor
-CMD ["apache2-foreground"]
+# Usa la imagen oficial de Apache
+FROM httpd:latest
+
+# Copia los archivos de tu proyecto a la carpeta donde Apache sirve contenido
+COPY ./tu-carpeta-con-archivos /usr/local/apache2/htdocs/
+
