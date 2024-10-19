@@ -9,7 +9,7 @@ pipeline {
             steps {
                 script {
                     // Construye la imagen de Docker
-                    sh 'docker build -t eliza22/suerte:tag .'
+                    sh 'docker build -t eliza22/suerte:tag -f Dockerfile .'
                 }
             }
         }
