@@ -1,45 +1,58 @@
 pipeline {
     agent any
-
+    environment {
+        // Agrega tus credenciales aquí
+        KUBECONFIG = credentials('mykubeconfing') // Reemplaza con tu ID de credencial
+    }
     stages {
-        stage('Checkout SCM') {
-            steps {
-                checkout scm
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
-                dir('dockerKuberMini_File') {
-                    sh 'docker build -t eliza22/suerte:tag -f Dockerfile .'
+                script {
+                    // Construye la imagen de Docker
+                    sh 'docker build -t eliza22/suerte:tag .'
                 }
             }
         }
-
+        stage('Load Image into Minikube') {
+            steps {
+                script {
+                    // Carga la imagen en Minikube
+                    sh 'minikube image load eliza22/suerte:tag'
+                }
+            }
+        }
         stage('Deploy to Kubernetes') {
             steps {
-                dir('dockerKuberMini_File') {
-                    script {
-
-                        // Aplicar el deployment
-                        
-                        //sh 'chmod -R 777 /home/datablitz/Desktop/jenkins/jenkindocker_File_parte2/certs'
-                        
-                        sh 'kubectl apply -f deployment.yml --validate=false'
-                        
-                        // Aplicar el servicio
-                        sh 'kubectl apply -f service.yml --validate=false'
-                    }
+                script {
+                    // Aplica los archivos de configuración de Kubernetes
+                    sh 'kubectl apply -f deployment.yml'
+                    sh 'kubectl apply -f service.yml'
                 }
             }
         }
-
-        stage('Check Application') {
+        stage('Get Services') {
             steps {
-                // Verificar los servicios
-                sh 'kubectl get services'
+                script {
+                    // Muestra los servicios
+                    sh 'kubectl get services'
+                }
+            }
+        }
+        stage('Verify Pods') {
+            steps {
+                script {
+                    // Verifica que los pods estén corriendo
+                    sh 'kubectl get pods'
+                }
             }
         }
     }
+    post {
+        always {
+            // Limpieza opcional
+            echo 'Pipeline finished.'
+        }
+    }
 }
+
 
