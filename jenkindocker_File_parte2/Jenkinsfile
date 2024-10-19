@@ -25,8 +25,8 @@ pipeline {
             steps {
                 script {
                     // Aplica los archivos de configuración de Kubernetes
-                    sh 'kubectl apply -f deployment.yml'
-                    sh 'kubectl apply -f service.yml'
+                    sh 'kubectl apply -f deployment.yml jenkindocker_File_parte2/deployment.yml'
+                    sh 'kubectl apply -f service.yml jenkindocker_File_parte2/service.yml'
                 }
             }
         }
