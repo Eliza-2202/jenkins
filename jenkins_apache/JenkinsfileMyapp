@@ -1,20 +1,32 @@
 pipeline {
-    agent any
+    agent any 
 
     stages {
-        stage('Construir Imagen') {
+        stage('Clone') {
+            steps {
+                git 'https://github.com/Eliza-2202/jenkins.git'
+            }
+        }
+        stage('Build') {
             steps {
                 script {
-                    def image = docker.build("mi_imagen_local", "-f jenkins_apache/Dockerfile .")
+                    sh 'docker build -t jenkins_apache/Dockerfile .'
                 }
             }
         }
-
-        stage('Ejecutar Contenedor') {
+        stage('Run') {
             steps {
                 script {
-                    docker.image("mi_imagen_local").run("-p 8080:80")
+                    sh 'docker-compose up -d'
                 }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanup {
+                sh 'docker-compose down'
             }
         }
     }
