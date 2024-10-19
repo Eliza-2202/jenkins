@@ -23,7 +23,7 @@ pipeline {
 
                         // Aplicar el deployment
                         
-                        sh 'chmod -R 777 /home/datablitz/Desktop/jenkins/jenkindocker_File_parte2/certs'
+                        //sh 'chmod -R 777 /home/datablitz/Desktop/jenkins/jenkindocker_File_parte2/certs'
                         
                         sh 'kubectl apply -f deployment.yml --validate=false'
                         
