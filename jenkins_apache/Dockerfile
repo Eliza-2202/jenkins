@@ -1,6 +1,8 @@
-# Usa la imagen oficial de Apache
-FROM httpd:latest
+# Usa una imagen base de Apache
+FROM httpd:2.4
 
-# Copia los archivos de tu proyecto a la carpeta donde Apache sirve contenido
-COPY ./tu-carpeta-con-archivos /usr/local/apache2/htdocs/
+# Copia tu contenido al contenedor
+COPY ./html/ /usr/local/apache2/htdocs/
 
+# Expone el puerto 80
+EXPOSE 80
