@@ -5,7 +5,7 @@ pipeline {
         stage('Clonar Repositorio') {
             steps {
                 // Reemplaza con la URL de tu repositorio
-                git 'https://tu-repositorio.git'
+                git 'https://github.com/Eliza-2202/jenkins.git'
             }
         }
         stage('Construir Imagen Docker') {
