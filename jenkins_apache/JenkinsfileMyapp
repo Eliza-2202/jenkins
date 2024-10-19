@@ -10,18 +10,18 @@ pipeline {
             // En este stage validamos el "TAG" de la imagen que vamos a crear
             steps {  
               script {
-               	def ImgTag = IMAGE_TAG
+                def ImgTag = params.IMAGE_TAG  // Cambia IMAGE_TAG a params.IMAGE_TAG
 
                 // Aqui validamos que el "TAG" no tenga mas de 6 caracteres
-                if(ImgTag.length() > 6) {
-                    error("Asegúrese de que el TAG de la imagen que definió: $IMAGE_TAG es menor o igual a 6 caracteres!")
+                if (ImgTag.length() > 6) {
+                    error("Asegúrese de que el TAG de la imagen que definió: $ImgTag es menor o igual a 6 caracteres!")
                 }           
 
                 def ImgType = /^[a-z0-9-.]+$/
 
                 // Aqui validamos que el "TAG" solo pueda tener minúsculas, alfanuméricas, guiones y puntos.
-                if(!IMAGE_TAG.matches(ImgType)) {
-                    error("Sólo se permiten minúsculas, alfanuméricas, guiones y puntos.!")   
+                if (!ImgTag.matches(ImgType)) {
+                    error("Sólo se permiten minúsculas, alfanuméricas, guiones y puntos!")   
                 }
                 echo "El nombre de la imagen: $ImgTag es válido!"
                }
@@ -46,22 +46,23 @@ pipeline {
             }
         }
         
-        stage('Docker Tag'){
+        stage('Docker Tag') {
             steps {
                 script {
-                    dockerImage.tag("${params.IMAGE_TAG}")
+                    dockerImage.tag("${params.IMAGE_TAG}") // Usa params.IMAGE_TAG aquí también
                 }   
             }   
         }
         
-        stage('Uploading Img'){
+        stage('Uploading Img') {
             steps {
-                script{
+                script {
                     docker.withRegistry('', 'dockerhub_id') {
-                       dockerImage.push("${params.IMAGE_TAG}")
+                       dockerImage.push("${params.IMAGE_TAG}") // Usa params.IMAGE_TAG aquí también
                     }
                 }
             }
         }
     }
 }
+
