@@ -5,16 +5,29 @@ metadata:
 spec:
   replicas: 1
   selector:
-    matchLabels:
-      app: fastapi-app
+	matchLabels:
+  	app: fastapi
   template:
-    metadata:
-      labels:
-        app: fastapi-app
-    spec:
-      containers:
-        - name: fastapi-app
-          image: eliza22/fastapi-app:tag
-          ports:
-            - containerPort: 8000  # Asegúrate de que este sea el puerto que tu aplicación escucha
+	metadata:
+  	labels:
+    	app: fastapi
+	spec:
+  	containers:
+  	- name: fastapi
+    	image: eliza22/fastapi-app:latest # Cambia a tu imagen en Docker Hub
+    	ports:
+    	- containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastapi-service
+spec:
+  selector:
+	app: fastapi
+  ports:
+	- protocol: TCP
+  	port: 80
+  	targetPort: 8000
+  type: NodePort
 
