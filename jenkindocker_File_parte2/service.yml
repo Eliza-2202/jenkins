@@ -11,4 +11,3 @@ spec:
       port: 80       # Puerto del servicio dentro del clúster
       targetPort: 8000  # Puerto del contenedor FastAPI
       nodePort: 30382  # Puerto que expone el servicio externamente
-
